@@ -6,19 +6,10 @@ import MessageInput from "./MessageInput";
 import MessageSkeleton from "./skeletons/MessageSkeleton";
 import { formatMessageTime } from "../lib/utils";
 import { useAppSelector, useAppDispatch } from "../redux/hooks";
-import { selectAuthUser, selectOnlineUsers } from "../redux/user/userSlice";
-import { getUsers, selectIsUsersLoading, selectMessages, selectSelectedUser, selectUsers, setSelectedUser, getMessages, selectIsMessagesLoading, subscribeToMessages, unsubscribeFromMessages } from "../redux/chat/chatStorer";
+import { selectAuthUser } from "../redux/user/userSlice";
+import { selectMessages, selectSelectedUser, getMessages, selectIsMessagesLoading, subscribeToMessages, unsubscribeFromMessages } from "../redux/chat/chatStorer";
 
 const ChatContainer = () => {
-//   const {
-//     messages,
-//     getMessages,
-//     isMessagesLoading,
-//     selectedUser,
-//     subscribeToMessages,
-//     unsubscribeFromMessages,
-//   } = useChatStore();
-//   const { authUser } = useAuthStore();
 
   const messages = useAppSelector(selectMessages);
   const dispatch = useAppDispatch();
@@ -93,7 +84,7 @@ const ChatContainer = () => {
                 {formatMessageTime(message.createdAt)}
               </time>
             </div>
-            <div className="chat-bubble flex flex-col">
+            <div className={`chat-bubble flex flex-col ${message.senderId === authUser?._id ? "chat-bubble-primary" : ""}` }>
               {message.image && (
                 <img
                   src={message.image}

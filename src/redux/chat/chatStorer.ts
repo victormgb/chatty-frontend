@@ -54,6 +54,7 @@ const initialState: ChatState = {
 export const getUsers = createAsyncThunk(
   'chat/getUsers',
   async (_, { dispatch, rejectWithValue }) => {
+    console.log("getting users");
     dispatch(chatSlice.actions.setIsUsersLoading(true));
     try {
       const res = await axiosInstance.get('/messages/users');
@@ -119,6 +120,40 @@ export const sendMessage = createAsyncThunk(
   }
 );
 
+export const listenNewUsers = createAsyncThunk(
+  'chat/listenUsers',
+  async (_, { dispatch, getState }) => {
+    const state = getState() as RootState;
+    const socket: Socket | null = state.auth.socket; // Get socket from auth slice
+    // const selectedUser = state.chat.selectedUser;
+
+    if (!socket) {
+      console.warn('Socket not connected or no user selected, cannot subscribe to messages.');
+      return;
+    }
+
+    // Ensure the listener is only attached once
+    socket.off('listenUser'); // Remove existing listener to prevent duplicates
+
+    socket.on('listenUser', () => {
+      dispatch(getUsers());
+
+      // if (!socket || !selectedUser) {
+      //   console.warn('Socket not connected or no user selected, cannot subscribe to messages.');
+      //   return;
+      // }
+      // // Only add message if it's from the currently selected user
+      // const isMessageFromSelectedUser =
+      //   newMessage.senderId === selectedUser._id || newMessage.receiverId === selectedUser._id;
+
+      // if (isMessageFromSelectedUser) {
+      //   dispatch(chatSlice.actions.addMessage(newMessage));
+      // }
+    });
+    console.log('Subscribed to new users.');
+  }
+);
+
 // Thunk to subscribe to new messages via socket
 export const subscribeToMessages = createAsyncThunk(
   'chat/subscribeToMessages',
@@ -127,7 +162,7 @@ export const subscribeToMessages = createAsyncThunk(
     const socket: Socket | null = state.auth.socket; // Get socket from auth slice
     const selectedUser = state.chat.selectedUser;
 
-    if (!socket || !selectedUser) {
+    if (!socket) {
       console.warn('Socket not connected or no user selected, cannot subscribe to messages.');
       return;
     }
@@ -136,6 +171,12 @@ export const subscribeToMessages = createAsyncThunk(
     socket.off('newMessage'); // Remove existing listener to prevent duplicates
 
     socket.on('newMessage', (newMessage: Message) => {
+      dispatch(getUsers());
+
+      if (!socket || !selectedUser) {
+        console.warn('Socket not connected or no user selected, cannot subscribe to messages.');
+        return;
+      }
       // Only add message if it's from the currently selected user
       const isMessageFromSelectedUser =
         newMessage.senderId === selectedUser._id || newMessage.receiverId === selectedUser._id;

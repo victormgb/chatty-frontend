@@ -5,7 +5,7 @@ import { io, Socket } from 'socket.io-client'; // For socket.io client
 import type { RootState } from '../store';
 
 // Define your base URL
-const BASE_URL = import.meta.env.MODE === 'development' ? 'http://localhost:5001' : '/';
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 // Define the shape of your authentication user
 export interface AuthUser {
@@ -111,10 +111,25 @@ export const login = createAsyncThunk(
   }
 );
 
+export const addContact = createAsyncThunk(
+  'auth/logout',
+  async (data: any, { dispatch, rejectWithValue }) => {
+    try {
+      await axiosInstance.post('/auth/add-contact', data);
+      toast.success('New Contact Added');
+    } catch (error: any) {
+      const errorMessage = error.response?.data?.message || 'Add Contact failed';
+      toast.error(errorMessage);
+      dispatch(authSlice.actions.setError(errorMessage));
+      return rejectWithValue(errorMessage);
+    }
+  }
+);
+
 // Thunk for user logout
 export const logout = createAsyncThunk(
   'auth/logout',
-  async (_, { dispatch, rejectWithValue, getState }) => {
+  async (_, { dispatch, rejectWithValue }) => {
     try {
       await axiosInstance.post('/auth/logout');
       dispatch(authSlice.actions.setAuthUser(null));

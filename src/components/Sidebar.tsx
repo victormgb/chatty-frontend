@@ -5,7 +5,7 @@ import SidebarSkeleton from "./skeletons/SidebarSkeleton";
 import { Users } from "lucide-react";
 import { useAppSelector, useAppDispatch } from "../redux/hooks";
 import { selectOnlineUsers } from "../redux/user/userSlice";
-import { getUsers, selectIsUsersLoading, selectSelectedUser, selectUsers, setSelectedUser } from "../redux/chat/chatStorer";
+import { getUsers, listenNewUsers, selectIsUsersLoading, selectSelectedUser, selectUsers, setSelectedUser } from "../redux/chat/chatStorer";
 
 const Sidebar = () => {
   const dispatch = useAppDispatch();
@@ -20,7 +20,18 @@ const Sidebar = () => {
 
   useEffect(() => {
     dispatch(getUsers());
+
+    dispatch(listenNewUsers());
   }, []);
+
+  // useEffect(() => {
+  //   console.log("selectedUser", selectedUser);
+  //   if(selectedUser) dispatch(getMessages(selectedUser._id));
+
+  //   dispatch(subscribeToMessages());
+
+  //   return () => { dispatch(unsubscribeFromMessages())};
+  // }, [selectedUser]);
 
   const filteredUsers = showOnlineOnly
     ? users.filter((user) => onlineUsers.includes(user._id))
@@ -36,7 +47,7 @@ const Sidebar = () => {
           <span className="font-medium hidden lg:block">Contacts</span>
         </div>
         {/* TODO: Online filter toggle */}
-        <div className="mt-3 hidden lg:flex items-center gap-2">
+        {/* <div className="mt-3 hidden lg:flex items-center gap-2">
           <label className="cursor-pointer flex items-center gap-2">
             <input
               type="checkbox"
@@ -47,7 +58,7 @@ const Sidebar = () => {
             <span className="text-sm">Show online only</span>
           </label>
           <span className="text-xs text-zinc-500">({(onlineUsers.length > 0) ? onlineUsers.length - 1 : 0} online)</span>
-        </div>
+        </div> */}
       </div>
 
       <div className="overflow-y-auto w-full py-3">
@@ -77,7 +88,12 @@ const Sidebar = () => {
 
             {/* User info - only visible on larger screens */}
             <div className="hidden lg:block text-left min-w-0">
-              <div className="font-medium truncate">{user.fullName}</div>
+              <div className="flex items-center gap-1">
+                <div className="font-medium truncate">{user.fullName}</div>
+                <span className="text-base-content/60 text-sm">(@{user.username})</span>
+              </div>
+              
+              
               <div className="text-sm text-zinc-400">
                 {onlineUsers.includes(user._id) ? "Online" : "Offline"}
               </div>

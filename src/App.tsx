@@ -38,6 +38,7 @@ import { Toaster } from "react-hot-toast";
 import SignUpPage from "./pages/SignUpPage";
 import { useEffect } from "react";
 import HomePage from "./pages/HomePage";
+import AddUser from "./components/AddUser";
 
 
 
@@ -80,6 +81,8 @@ const App = () => {
         {/* <Route path="/settings" element={<SettingsPage />} /> */}
         {/* <Route path="/profile" element={authUser ? <ProfilePage /> : <Navigate to="/login" />} /> */}
       </Routes>
+
+      <AddUser/>
 
       <Toaster />
     </div>

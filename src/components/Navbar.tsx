@@ -1,9 +1,24 @@
 import { Link } from "react-router-dom";
 // import { useAuthStore } from "../store/useAuthStore";
-import { LogOut, MessageSquare, Settings, User } from "lucide-react";
-
+import { LogOut, MessageSquare, Settings, User, User2 } from "lucide-react";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { logout, selectAuthUser } from "../redux/user/userSlice";
 const Navbar = () => {
 //   const { logout, authUser } = useAuthStore();
+
+  const authUser = useAppSelector(selectAuthUser);
+  const dispatch = useAppDispatch();
+  
+  const handleLogout = () => {
+    dispatch(logout());
+  }
+
+  const handleModal = () => {
+    const addUser = document.getElementById("addUser") as any;
+    if(addUser && addUser?.showModal) {
+      addUser.showModal();
+    }
+  }
 
   return (
     <header
@@ -21,8 +36,8 @@ const Navbar = () => {
             </Link>
           </div>
 
-          {/* <div className="flex items-center gap-2">
-            <Link
+          <div className="flex items-center gap-2">
+            {/* <Link
               to={"/settings"}
               className={`
               btn btn-sm gap-2 transition-colors
@@ -31,22 +46,32 @@ const Navbar = () => {
             >
               <Settings className="w-4 h-4" />
               <span className="hidden sm:inline">Settings</span>
-            </Link>
+            </Link> */}
 
             {authUser && (
               <>
-                <Link to={"/profile"} className={`btn btn-sm gap-2`}>
-                  <User className="size-5" />
-                  <span className="hidden sm:inline">Profile</span>
-                </Link>
-
-                <button className="flex gap-2 items-center" onClick={logout}>
+                <button className="flex gap-2 items-center btn btn-primary" onClick={handleModal}>
+                  <User2 className="size-5" />
+                  Add User
+                </button>
+                <button className="flex gap-2 items-center btn" onClick={handleLogout}>
                   <LogOut className="size-5" />
                   <span className="hidden sm:inline">Logout</span>
                 </button>
+                {/* <dialog id="addUser" className="modal">
+                  <div className="modal-box">
+                    <h3 className="text-lg font-bold">Hello!</h3>
+                    <p className="py-4">Press ESC key or click the button below to close</p>
+                    <div className="modal-action">
+                      <form method="dialog">
+                        <button className="btn">Close</button>
+                      </form>
+                    </div>
+                  </div>
+                </dialog> */}
               </>
             )}
-          </div> */}
+          </div>
         </div>
       </div>
     </header>

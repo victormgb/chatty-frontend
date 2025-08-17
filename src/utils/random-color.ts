@@ -14,7 +14,14 @@ const baseColors = [
   '#FFD700', // Gold
   '#9932CC', // Dark Orchid
   '#1E90FF', // Dodger Blue
-  '#FF4500'  // Orange Red
+  '#FF4500', // Orange Red
+  '#8A2BE2', // Blue Violet
+  '#5F9EA0', // Cadet Blue
+  '#DAA520', // Goldenrod
+  '#FF69B4', // Hot Pink
+  '#48D1CC', // Medium Turquoise
+  '#BA55D3', // Medium Orchid
+  '#7CFC00'  // Lawn Green
 ];
 
 /**
