@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 // import { useAuthStore } from "../store/useAuthStore";
-import { LogOut, MessageSquare, Settings, User, User2 } from "lucide-react";
+import { LogOut, MessageSquare, User2 } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { logout, selectAuthUser } from "../redux/user/userSlice";
 const Navbar = () => {

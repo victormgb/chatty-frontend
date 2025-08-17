@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Image, Send, X } from "lucide-react";
+import { Send, X } from "lucide-react";
 import toast from "react-hot-toast";
 import { useAppDispatch } from "../redux/hooks";
 import { sendMessage } from "../redux/chat/chatStorer";

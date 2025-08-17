@@ -9,24 +9,10 @@ import LoginPage from "./pages/LoginPage";
 
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from './redux/hooks';
-// import { useAuthStore } from "./store/useAuthStore";
-// import { useThemeStore } from "./store/useThemeStore";
-// import { useEffect } from "react";
-
-// import { Loader } from "lucide-react";
-// import { Toaster } from "react-hot-toast";
 import {
   checkAuth, // Import the async thunk
   selectAuthUser,
-  // selectIsCheckingAuth,
-  // selectOnlineUsers,
-  // selectAuthError,
-  login, // Example: Import login thunk for a button
-  logout, // Example: Import logout thunk for a button
-  type AuthUser,
   selectIsCheckingAuth,
-  selectOnlineUsers,
-  selectAuthError
 } from './redux/user/userSlice'; // Adjust path as necessary
 
 import {
@@ -47,16 +33,9 @@ const App = () => {
   const dispatch = useAppDispatch();
   const authUser = useAppSelector(selectAuthUser);
   const isCheckingAuth = useAppSelector(selectIsCheckingAuth);
-  const onlineUsers = useAppSelector(selectOnlineUsers);
-  const authError = useAppSelector(selectAuthError);
   const theme = useAppSelector(selectTheme);
-  // const { theme } = useThemeStore();
-
-  // console.log({ onlineUsers });
 
   useEffect(() => {
-    console.log("check authUser");
-    // checkAuth();
     dispatch(checkAuth());
   }, []);
 

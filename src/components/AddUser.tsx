@@ -1,8 +1,6 @@
-import { Link } from "react-router-dom";
-// import { useAuthStore } from "../store/useAuthStore";
-import { Loader2, LogOut, MessageSquare, Settings, User, User2 } from "lucide-react";
+import { Loader2, User } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { addContact, logout, selectAuthUser } from "../redux/user/userSlice";
+import { addContact, selectAuthUser } from "../redux/user/userSlice";
 import { useState } from "react";
 import { getUsers } from "../redux/chat/chatStorer";
 const AddUser = () => {

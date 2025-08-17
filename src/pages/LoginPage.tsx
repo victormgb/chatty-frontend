@@ -1,11 +1,7 @@
 import { useState } from "react";
 import {
-  checkAuth, // Import the async thunk
-  selectAuthUser,
-  selectIsCheckingAuth,
   selectIsLoggingIn,
   login, // Example: Import login thunk for a button
-  logout // Example: Import logout thunk for a button
 } from '../redux/user/userSlice'; // Adjust path as necessary
 
 

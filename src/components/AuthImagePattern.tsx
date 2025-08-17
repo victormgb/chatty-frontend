@@ -1,5 +1,3 @@
-import React from 'react';
-
 // Define an interface for the component's props
 interface AuthImagePatternProps {
   title: string;
